@@ -69,11 +69,11 @@ namespace PcreSharp
 
                 if (!match.Success)
                 {
-	                _foundAll = true;
-	                return null;
+                    _foundAll = true;
+                    return null;
                 }
 
-				_matches.Add(match);
+                _matches.Add(match);
 
             } while (_matches.Count <= i);
 
