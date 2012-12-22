@@ -1,22 +1,32 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcreSharp", "PcreSharp\PcreSharp.csproj", "{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PcreSharpTest", "PcreSharpTest\PcreSharpTest.csproj", "{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Debug|x64.ActiveCfg = Debug|x64
+		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Debug|x64.Build.0 = Debug|x64
 		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Debug|x86.ActiveCfg = Debug|x86
 		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Debug|x86.Build.0 = Debug|x86
+		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Release|x64.ActiveCfg = Release|x64
+		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Release|x64.Build.0 = Release|x64
 		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Release|x86.ActiveCfg = Release|x86
 		{A7F2EB7A-E548-4E0D-A5DA-3015256745FC}.Release|x86.Build.0 = Release|x86
+		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Debug|x64.ActiveCfg = Debug|x64
+		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Debug|x64.Build.0 = Debug|x64
 		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Debug|x86.ActiveCfg = Debug|x86
 		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Debug|x86.Build.0 = Debug|x86
+		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Release|x64.ActiveCfg = Release|x64
+		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Release|x64.Build.0 = Release|x64
 		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Release|x86.ActiveCfg = Release|x86
 		{387107B7-D5FE-4DB6-BD6B-0A1A3B4CB175}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
