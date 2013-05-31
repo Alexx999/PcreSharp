@@ -42,7 +42,7 @@ namespace PcreSharp
 		private static IntPtr iptr_pcre_callout;
 
 #if X86
-        private const string DllName = "pcre.dll";
+		private const string DllName = "pcre.dll";
 #elif AMD64
 		private const string DllName = "pcre64.dll";
 #endif
@@ -91,8 +91,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe IntPtr pcre_compile(byte* pattern, int options,
-														  out IntPtr errptr, ref int erroffset,
-														  IntPtr tableptr);
+		                                                  out IntPtr errptr, ref int erroffset,
+		                                                  IntPtr tableptr);
 
 		/*
 		 pcre *pcre_compile2(const char *pattern, int options,
@@ -104,9 +104,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe IntPtr pcre_compile2(byte* pattern, int options,
-														   ref int errorcodeptr,
-														   out IntPtr errptr, ref int erroffset,
-														   IntPtr tableptr);
+		                                                   ref int errorcodeptr,
+		                                                   out IntPtr errptr, ref int erroffset,
+		                                                   IntPtr tableptr);
 
 
 		/*
@@ -116,8 +116,7 @@ namespace PcreSharp
 
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern IntPtr pcre_study(IntPtr code, int options,
-												 out IntPtr errptr);
+		internal static extern IntPtr pcre_study(IntPtr code, int options, out IntPtr errptr);
 
 
 		/*
@@ -138,8 +137,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_exec(IntPtr code, IntPtr extra,
-													byte* subject, int length, int startoffset,
-													int options, int* ovector, int ovecsize);
+		                                            byte* subject, int length, int startoffset,
+		                                            int options, int* ovector, int ovecsize);
 
 
 		/*
@@ -152,9 +151,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_dfa_exec(IntPtr code, IntPtr extra,
-														byte* subject, int length, int startoffset,
-														int options, int* ovector, int ovecsize,
-														int* workspace, int wscount);
+		                                                byte* subject, int length, int startoffset,
+		                                                int options, int* ovector, int ovecsize,
+		                                                int* workspace, int wscount);
 
 		#endregion
 
@@ -170,9 +169,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_copy_named_substring(IntPtr code,
-																	byte* subject, int* ovector,
-																	int stringcount, byte* stringname,
-																	byte* buffer, int buffersize);
+		                                                            byte* subject, int* ovector,
+		                                                            int stringcount, byte* stringname,
+		                                                            byte* buffer, int buffersize);
 
 
 		/*
@@ -184,8 +183,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_copy_substring(byte* subject, int* ovector,
-															  int stringcount, int stringnumber, byte* buffer,
-															  int buffersize);
+		                                                      int stringcount, int stringnumber,
+		                                                      byte* buffer, int buffersize);
 
 
 		/*
@@ -198,9 +197,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_get_named_substring(IntPtr code,
-																   byte* subject, int* ovector,
-																   int stringcount, byte* stringname,
-																   out byte* stringptr);
+		                                                           byte* subject, int* ovector,
+		                                                           int stringcount, byte* stringname,
+		                                                           out byte* stringptr);
 
 
 		/*
@@ -210,8 +209,7 @@ namespace PcreSharp
 
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
-		internal static extern unsafe int pcre_get_stringnumber(IntPtr code,
-																byte* name);
+		internal static extern unsafe int pcre_get_stringnumber(IntPtr code, byte* name);
 
 
 		/*
@@ -222,7 +220,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_get_stringtable_entries(IntPtr code,
-																	   byte* name, out byte* first, out byte* last);
+		                                                               byte* name, out byte* first,
+		                                                               out byte* last);
 
 
 		/*
@@ -234,8 +233,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_get_substring(byte* subject, int* ovector,
-															 int stringcount, int stringnumber,
-															 out IntPtr stringptr);
+		                                                     int stringcount, int stringnumber,
+		                                                     out IntPtr stringptr);
 
 
 		/*
@@ -246,7 +245,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_get_substring_list(byte* subject,
-																  int* ovector, int stringcount, out IntPtr[] listptr);
+		                                                          int* ovector, int stringcount,
+		                                                          out IntPtr[] listptr);
 
 
 		/*
@@ -280,9 +280,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern unsafe int pcre_jit_exec(IntPtr code, IntPtr extra,
-														byte* subject, int length, int startoffset,
-														int options, int* ovector, int ovecsize,
-														IntPtr jstack);
+		                                                byte* subject, int length, int startoffset,
+		                                                int options, int* ovector, int ovecsize,
+		                                                IntPtr jstack);
 
 
 		/*
@@ -311,7 +311,7 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern void pcre_assign_jit_stack(IntPtr extra,
-														  IntPtr callback, IntPtr data);
+		                                                  IntPtr callback, IntPtr data);
 
 
 		/*
@@ -331,7 +331,7 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int pcre_fullinfo(IntPtr code, IntPtr extra,
-												 int what, IntPtr where);
+		                                         int what, IntPtr where);
 
 
 		/*
@@ -369,7 +369,7 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
 		internal static extern int pcre_pattern_to_host_byte_order(IntPtr code,
-																   IntPtr extra, IntPtr tables);
+		                                                           IntPtr extra, IntPtr tables);
 
 		#endregion
 	}

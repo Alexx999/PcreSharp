@@ -135,8 +135,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate IntPtr pcre_compile_delegate(byte* pattern, int options,
-														  out IntPtr errptr, ref int erroffset,
-														  IntPtr tableptr);
+		                                                      out IntPtr errptr, ref int erroffset,
+		                                                      IntPtr tableptr);
 
 		internal static readonly pcre_compile_delegate pcre_compile;
 
@@ -150,9 +150,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate IntPtr pcre_compile2_delegate(byte* pattern, int options,
-														   ref int errorcodeptr,
-														   out IntPtr errptr, ref int erroffset,
-														   IntPtr tableptr);
+		                                                       ref int errorcodeptr,
+		                                                       out IntPtr errptr, ref int erroffset,
+		                                                       IntPtr tableptr);
 
 		internal static readonly pcre_compile2_delegate pcre_compile2;
 
@@ -163,8 +163,7 @@ namespace PcreSharp
 
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		internal delegate IntPtr pcre_study_delegate(IntPtr code, int options,
-												 out IntPtr errptr);
+		internal delegate IntPtr pcre_study_delegate(IntPtr code, int options, out IntPtr errptr);
 
 		internal static readonly pcre_study_delegate pcre_study;
 
@@ -188,8 +187,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate int pcre_exec_delegate(IntPtr code, IntPtr extra,
-													byte* subject, int length, int startoffset,
-													int options, int* ovector, int ovecsize);
+		                                                byte* subject, int length, int startoffset,
+		                                                int options, int* ovector, int ovecsize);
 
 		internal static readonly pcre_exec_delegate pcre_exec;
 
@@ -203,9 +202,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate int pcre_dfa_exec_delegate(IntPtr code, IntPtr extra,
-														byte* subject, int length, int startoffset,
-														int options, int* ovector, int ovecsize,
-														int* workspace, int wscount);
+		                                                    byte* subject, int length, int startoffset,
+		                                                    int options, int* ovector, int ovecsize,
+		                                                    int* workspace, int wscount);
 
 		internal static readonly pcre_dfa_exec_delegate pcre_dfa_exec;
 
@@ -215,17 +214,17 @@ namespace PcreSharp
 
 		/*
 		 int pcre_copy_named_substring(const pcre *code,
-            const char *subject, int *ovector,
-            int stringcount, const char *stringname,
-            char *buffer, int buffersize);
+			const char *subject, int *ovector,
+			int stringcount, const char *stringname,
+			char *buffer, int buffersize);
 		 */
 
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate int pcre_copy_named_substring_delegate(IntPtr code,
-																	byte* subject, int* ovector,
-																	int stringcount, byte* stringname,
-																	byte* buffer, int buffersize);
+		                                                                byte* subject, int* ovector,
+		                                                                int stringcount, byte* stringname,
+		                                                                byte* buffer, int buffersize);
 
 		internal static readonly pcre_copy_named_substring_delegate pcre_copy_named_substring;
 
@@ -239,8 +238,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate int pcre_copy_substring_delegate(byte* subject, int* ovector,
-															  int stringcount, int stringnumber, byte* buffer,
-															  int buffersize);
+		                                                          int stringcount, int stringnumber, byte* buffer,
+		                                                          int buffersize);
 
 		internal static readonly pcre_copy_substring_delegate pcre_copy_substring;
 
@@ -254,9 +253,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate int pcre_get_named_substring_delegate(IntPtr code,
-																   byte* subject, int* ovector,
-																   int stringcount, byte* stringname,
-																   out byte* stringptr);
+		                                                               byte* subject, int* ovector,
+		                                                               int stringcount, byte* stringname,
+		                                                               out byte* stringptr);
 
 		internal static readonly pcre_get_named_substring_delegate pcre_get_named_substring;
 
@@ -267,8 +266,7 @@ namespace PcreSharp
 
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		internal unsafe delegate int pcre_get_stringnumber_delegate(IntPtr code,
-																byte* name);
+		internal unsafe delegate int pcre_get_stringnumber_delegate(IntPtr code, byte* name);
 
 		internal static readonly pcre_get_stringnumber_delegate pcre_get_stringnumber;
 
@@ -279,8 +277,8 @@ namespace PcreSharp
 
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		internal unsafe delegate int pcre_get_stringtable_entries_delegate(IntPtr code,
-																	   byte* name, out byte* first, out byte* last);
+		internal unsafe delegate int pcre_get_stringtable_entries_delegate(IntPtr code, byte* name,
+		                                                                   out byte* first, out byte* last);
 
 		internal static readonly pcre_get_stringtable_entries_delegate pcre_get_stringtable_entries;
 
@@ -294,8 +292,8 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate int pcre_get_substring_delegate(byte* subject, int* ovector,
-															 int stringcount, int stringnumber,
-															 out IntPtr stringptr);
+		                                                         int stringcount, int stringnumber,
+		                                                         out IntPtr stringptr);
 
 		internal static readonly pcre_get_substring_delegate pcre_get_substring;
 
@@ -307,8 +305,8 @@ namespace PcreSharp
 
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-		internal unsafe delegate int pcre_get_substring_list_delegate(byte* subject,
-																  int* ovector, int stringcount, out IntPtr[] listptr);
+		internal unsafe delegate int pcre_get_substring_list_delegate(byte* subject, int* ovector,
+		                                                              int stringcount, out IntPtr[] listptr);
 
 		internal static readonly pcre_get_substring_list_delegate pcre_get_substring_list;
 
@@ -348,9 +346,9 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal unsafe delegate int pcre_jit_exec_delegate(IntPtr code, IntPtr extra,
-														byte* subject, int length, int startoffset,
-														int options, int* ovector, int ovecsize,
-														IntPtr jstack);
+		                                                    byte* subject, int length, int startoffset,
+		                                                    int options, int* ovector, int ovecsize,
+		                                                    IntPtr jstack);
 
 		internal static readonly pcre_jit_exec_delegate pcre_jit_exec;
 
@@ -383,7 +381,7 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal delegate void pcre_assign_jit_stack_delegate(IntPtr extra,
-														  IntPtr callback, IntPtr data);
+		                                                      IntPtr callback, IntPtr data);
 
 		internal static readonly pcre_assign_jit_stack_delegate pcre_assign_jit_stack;
 
@@ -406,7 +404,7 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal delegate int pcre_fullinfo_delegate(IntPtr code, IntPtr extra,
-												 int what, IntPtr where);
+		                                             int what, IntPtr where);
 
 		internal static readonly pcre_fullinfo_delegate pcre_fullinfo;
 
@@ -448,7 +446,7 @@ namespace PcreSharp
 		[SuppressUnmanagedCodeSecurity]
 		[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 		internal delegate int pcre_pattern_to_host_byte_order_delegate(IntPtr code,
-																   IntPtr extra, IntPtr tables);
+		                                                               IntPtr extra, IntPtr tables);
 
 		internal static readonly pcre_pattern_to_host_byte_order_delegate pcre_pattern_to_host_byte_order;
 
