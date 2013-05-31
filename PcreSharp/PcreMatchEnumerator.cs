@@ -2,7 +2,7 @@
 
 namespace PcreSharp
 {
-    class PcreMatchEnumerator
-    {
-    }
+	class PcreMatchEnumerator
+	{
+	}
 }

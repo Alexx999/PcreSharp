@@ -3,128 +3,128 @@ using System.Collections;
 using System.Collections.Generic;
 namespace PcreSharp
 {
-    public class PcreMatchCollection : ICollection<PcreMatch>
-    {
-        private bool _foundAll;
-        private readonly List<PcreMatch> _matches;
-        private readonly PcreRegex _parent;
-        private readonly byte[] _data;
-        private readonly int _options;
+	public class PcreMatchCollection : ICollection<PcreMatch>
+	{
+		private bool _foundAll;
+		private readonly List<PcreMatch> _matches;
+		private readonly PcreRegex _parent;
+		private readonly byte[] _data;
+		private readonly int _options;
 
-        internal PcreMatchCollection(PcreRegex parent, byte[] data, int options)
-        {
-            _options = options;
-            _parent = parent;
-            _data = data;
-            _matches = new List<PcreMatch>();
-        }
+		internal PcreMatchCollection(PcreRegex parent, byte[] data, int options)
+		{
+			_options = options;
+			_parent = parent;
+			_data = data;
+			_matches = new List<PcreMatch>();
+		}
 
-        public IEnumerator<PcreMatch> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
+		public IEnumerator<PcreMatch> GetEnumerator()
+		{
+			throw new NotImplementedException();
+		}
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
 
-        public PcreMatch this[int i]
-        {
-            get
-            {
-                PcreMatch match = GetMatch(i);
-                if (match == null)
-                    throw new ArgumentOutOfRangeException("i");
-                
-                return match;
-            }
-        }
+		public PcreMatch this[int i]
+		{
+			get
+			{
+				PcreMatch match = GetMatch(i);
+				if (match == null)
+					throw new ArgumentOutOfRangeException("i");
 
-        private PcreMatch GetMatch(int i)
-        {
-            if (i < 0) return null;
+				return match;
+			}
+		}
 
-            if (i < _matches.Count)
-            {
-                return _matches[i];
-            }
+		private PcreMatch GetMatch(int i)
+		{
+			if (i < 0) return null;
 
-            if (_foundAll) return null;
+			if (i < _matches.Count)
+			{
+				return _matches[i];
+			}
 
-            PcreMatch match;
+			if (_foundAll) return null;
 
-            if (_matches.Count == 0)
-            {
-                match = new PcreMatch(_parent, _data, 0,0,_options);
-            }
-            else
-            {
-                match = _matches[_matches.Count - 1];
-            }
+			PcreMatch match;
 
-            do
-            {
-                match = match.NextMatch();
+			if (_matches.Count == 0)
+			{
+				match = new PcreMatch(_parent, _data, 0, 0, _options);
+			}
+			else
+			{
+				match = _matches[_matches.Count - 1];
+			}
 
-                if (!match.Success)
-                {
-                    _foundAll = true;
-                    return null;
-                }
+			do
+			{
+				match = match.NextMatch();
 
-                _matches.Add(match);
+				if (!match.Success)
+				{
+					_foundAll = true;
+					return null;
+				}
 
-            } while (_matches.Count <= i);
+				_matches.Add(match);
 
-            _foundAll = true;
+			} while (_matches.Count <= i);
 
-            return match;
-        }
+			_foundAll = true;
 
-        public void Add(PcreMatch item)
-        {
-            throw new NotImplementedException();
-        }
+			return match;
+		}
 
-        public void Clear()
-        {
-            throw new NotImplementedException();
-        }
+		public void Add(PcreMatch item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public bool Contains(PcreMatch item)
-        {
-            return _matches.Contains(item);
-        }
+		public void Clear()
+		{
+			throw new NotImplementedException();
+		}
 
-        public void CopyTo(PcreMatch[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
-        }
+		public bool Contains(PcreMatch item)
+		{
+			return _matches.Contains(item);
+		}
 
-        public bool Remove(PcreMatch item)
-        {
-            throw new NotImplementedException();
-        }
+		public void CopyTo(PcreMatch[] array, int arrayIndex)
+		{
+			throw new NotImplementedException();
+		}
 
-        public int Count
-        {
-            get
-            {
-                if (_foundAll)
-                {
-                    return _matches.Count;
-                }
+		public bool Remove(PcreMatch item)
+		{
+			throw new NotImplementedException();
+		}
 
-                GetMatch(int.MaxValue);
+		public int Count
+		{
+			get
+			{
+				if (_foundAll)
+				{
+					return _matches.Count;
+				}
 
-                return _matches.Count;
-            }
-        }
+				GetMatch(int.MaxValue);
 
-        public bool IsReadOnly
-        {
-            get { return true; }
-        }
-    }
+				return _matches.Count;
+			}
+		}
+
+		public bool IsReadOnly
+		{
+			get { return true; }
+		}
+	}
 }
