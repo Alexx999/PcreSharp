@@ -177,7 +177,7 @@ namespace PcreSharp
 			throw new NotImplementedException();
 		}
 
-		public string Replace(string input, string replacement, int maxCount, int start, PcreOptions options)
+		public unsafe string Replace(string input, string replacement, int maxCount, int start, PcreOptions options)
 		{
 			byte[] srcBytes = Encoding.UTF8.GetBytes(input);
 			int opts = (int)options;
@@ -212,24 +212,55 @@ namespace PcreSharp
 			int currSrcPos = 0;
 			int currDstPos = 0;
 
-			while (currIndex < count)
+			fixed (byte* pinnedReplacementBytes = replacementBytes)
 			{
-				var currMatch = collection[currIndex];
-				var copyCount = currMatch._start - currSrcPos;
-				Buffer.BlockCopy(srcBytes, currSrcPos, resultBytes, currDstPos, copyCount);
-				currSrcPos += copyCount;
-				currDstPos += copyCount;
+				fixed (byte* pinnedSrcBytes = srcBytes)
+				{
+					fixed (byte* pinnedResultBytes = resultBytes)
+					{
+						while (currIndex < count)
+						{
+							var currMatch = collection[currIndex];
+							var copyCount = currMatch._start - currSrcPos;
+							FastCopy(pinnedSrcBytes + currSrcPos, pinnedResultBytes + currDstPos, copyCount);
+							currSrcPos += copyCount;
+							currDstPos += copyCount;
 
-				Buffer.BlockCopy(replacementBytes, 0, resultBytes, currDstPos, replacementLen);
-				currSrcPos += currMatch.Length;
-				currDstPos += replacementLen;
+							FastCopy(pinnedReplacementBytes, pinnedResultBytes + currDstPos, replacementLen);
+							currSrcPos += currMatch.Length;
+							currDstPos += replacementLen;
 
-				currIndex++;
+							currIndex++;
+						}
+						FastCopy(pinnedSrcBytes + currSrcPos, pinnedResultBytes + currDstPos, srcBytes.Length - currSrcPos);
+					}
+				}
 			}
 
-			Buffer.BlockCopy(srcBytes, currSrcPos, resultBytes, currDstPos, srcBytes.Length - currSrcPos);
-
 			return Encoding.UTF8.GetString(resultBytes, 0, resultBytes.Length);
+		}
+
+		private unsafe void FastCopy(byte * pSrc, byte* pDst, int count)
+		{
+			byte* ps = pSrc;
+			byte* pd = pDst;
+			// Loop over the count in blocks of 4 bytes, copying an
+			// integer (4 bytes) at a time:
+			for (int n = 0; n < count / 4; n++)
+			{
+				*((int*)pd) = *((int*)ps);
+				pd += 4;
+				ps += 4;
+			}
+
+			// Complete the copy by moving any bytes that weren't
+			// moved in blocks of 4:
+			for (int n = 0; n < count % 4; n++)
+			{
+				*pd = *ps;
+				pd++;
+				ps++;
+			}
 		}
 
 		#region Replace() overloads
