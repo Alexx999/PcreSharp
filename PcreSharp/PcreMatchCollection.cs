@@ -104,7 +104,7 @@ namespace PcreSharp
 		{
 			if ((array != null) && (array.Rank != 1))
 			{
-				throw new ArgumentException("Multi-dimmensional arrays not supported");
+				throw new ArgumentException("Multi-dimmensional arrays not supported", "array");
 			}
 
 			GetMatch(int.MaxValue);
