@@ -15,12 +15,29 @@ namespace PcreSharpTest
 
 			int i;
 			int testNum = 10;
+			DateTime start;
 
-			var regex = new PcreRegex("\"id\\d+\"", PcreOptions.NONE, PcreStudyOptions.PCRE_STUDY_JIT_COMPILE);
-			var start = DateTime.Now;
+			start = DateTime.Now;
+			var regex = new PcreRegex("abcd", PcreOptions.NONE, PcreStudyOptions.NONE);
+			Console.WriteLine("First creation time: " + (DateTime.Now - start).TotalMilliseconds);
+			start = DateTime.Now;
+			regex = new PcreRegex("\"id\\d+\"", PcreOptions.NONE, PcreStudyOptions.PCRE_STUDY_JIT_COMPILE);
+			Console.WriteLine("JIT creation time: " + (DateTime.Now - start).TotalMilliseconds);
+			/*
+			var abc = "qwerty \"id5\" qwerty";
+			var bca = regex.Replace(abc, "bca");
+			*/
+			start = DateTime.Now;
 			for (i = 0; i < testNum; i++)
 			{
-				regex.MatchCount(str);
+				regex.Replace(str, "bca");
+			}
+			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
+
+			start = DateTime.Now;
+			for (i = 0; i < testNum; i++)
+			{
+				var a = regex.Matches(str).Count;
 			}
 			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
 
@@ -31,11 +48,24 @@ namespace PcreSharpTest
 			}
 			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
 
-			var regexOrig = new Regex("\"id\\d+\"", RegexOptions.Compiled);
+			start = DateTime.Now;
+			var regexOrig = new Regex("abcd", RegexOptions.None);
+			Console.WriteLine("First creation time: " + (DateTime.Now - start).TotalMilliseconds);
+			start = DateTime.Now;
+			regexOrig = new Regex("\"id\\d+\"", RegexOptions.Compiled);
+			Console.WriteLine("Second creation time: " + (DateTime.Now - start).TotalMilliseconds);
 
 			start = DateTime.Now;
 			for (i = 0; i < testNum; i++)
 			{
+				regexOrig.Replace(str, "bca");
+			}
+			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
+
+			start = DateTime.Now;
+			for (i = 0; i < testNum; i++)
+			{
+				//regexOrig.Replace(str,"str",)
 				var a = regexOrig.Matches(str).Count;
 			}
 			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
@@ -46,7 +76,6 @@ namespace PcreSharpTest
 				TestOrig(regexOrig, str);
 			}
 			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
-
 			if (args.Length > 0) Console.ReadKey();
 		}
 
