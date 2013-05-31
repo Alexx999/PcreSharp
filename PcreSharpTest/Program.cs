@@ -13,31 +13,57 @@ namespace PcreSharpTest
 		{
 			string str = GenerateRandomDataString(StrLen);
 
-		    MatchCollection c;
-            
+			int i;
+			int testNum = 100;
 
-            var regex = new PcreRegex("\"id\\d+\"", PcreOptions.NONE, PcreStudyOptions.PCRE_STUDY_JIT_COMPILE);
-            var start = DateTime.Now;
-			Console.WriteLine(regex.MatchCount(str));
-            Console.WriteLine((DateTime.Now - start).TotalMilliseconds);
+			var regex = new PcreRegex("\"id\\d+\"", PcreOptions.NONE, PcreStudyOptions.PCRE_STUDY_JIT_COMPILE);
+			var start = DateTime.Now;
+			for (i = 0; i < testNum; i++)
+			{
+				regex.MatchCount(str);
+			}
+			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
 
-            start = DateTime.Now;
-            Test(regex, str);
-            Console.WriteLine((DateTime.Now - start).TotalMilliseconds);
+			start = DateTime.Now;
+			for (i = 0; i < testNum; i++)
+			{
+				Test(regex, str);
+			}
+			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
+
+			var regexOrig = new Regex("\"id\\d+\"", RegexOptions.Compiled);
+
+			start = DateTime.Now;
+			for (i = 0; i < testNum; i++)
+			{
+				TestOrig(regexOrig, str);
+			}
+			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
 
 			if (args.Length > 0) Console.ReadKey();
 		}
 
-        private static void Test(PcreRegex regex, string str)
-        {
-            var match = regex.Match(str);
+		private static void Test(PcreRegex regex, string str)
+		{
+			var match = regex.Match(str);
 
-            while (match.Success)
-            {
-                //Console.WriteLine(match.Value);
-                match = match.NextMatch();
-            }
-        }
+			while (match.Success)
+			{
+				//Console.WriteLine(match.Value);
+				match = match.NextMatch();
+			}
+		}
+
+		private static void TestOrig(Regex regex, string str)
+		{
+			var match = regex.Match(str);
+
+			while (match.Success)
+			{
+				//Console.WriteLine(match.Value);
+				match = match.NextMatch();
+			}
+		}
 
 		private static string GenerateRandomDataString(int len)
 		{
