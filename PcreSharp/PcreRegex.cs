@@ -9,16 +9,19 @@ namespace PcreSharp
 		private bool _disposed;
 		private readonly IntPtr _code;
 		private readonly IntPtr _extra;
+		private readonly IntPtr _stack;
 		private readonly string _pattern;
 
 		private const int OvecSize = 10 * 3;
 		private readonly int[] _ovectorArr = new int[OvecSize];
 		private readonly PcreOptions _options;
+		private readonly PcreStudyOptions _studyOptions;
 
 		public unsafe PcreRegex(string pattern, PcreOptions options, PcreStudyOptions studyOptions)
 		{
 			_pattern = pattern;
 			_options = options;
+			_studyOptions = studyOptions;
 
 			int errorCode = 0;
 			IntPtr error;
@@ -35,6 +38,10 @@ namespace PcreSharp
 			}
 
 			_extra = PcreWrapper.pcre_study(_code, (int)studyOptions, out error);
+			if ((studyOptions & PcreStudyOptions.PCRE_STUDY_JIT_COMPILE) != 0)
+			{
+				_stack = PcreWrapper.pcre_jit_stack_alloc(1024*1024, 16*1024*1024);
+			}
 		}
 
 		#region Constructor overloads
@@ -132,6 +139,7 @@ namespace PcreSharp
 			int pos = 0;
 			byte[] tgtBytes = Encoding.UTF8.GetBytes(input);
 			int bytesLen = tgtBytes.Length;
+			int opts = (int) options;
 			fixed (byte* bytes = tgtBytes)
 			{
 				fixed (int* ovector = _ovectorArr)
@@ -139,7 +147,7 @@ namespace PcreSharp
 					int res;
 					do
 					{
-						res = PcreWrapper.pcre_exec(_code, _extra, bytes, bytesLen, pos, (int)options, ovector, OvecSize);
+						res = Exec(bytes, bytesLen, pos, opts, ovector);
 						pos = _ovectorArr[1];
 						count++;
 					} while (res > 0);
@@ -155,7 +163,7 @@ namespace PcreSharp
 			{
 				fixed (int* ovector = _ovectorArr)
 				{
-					res = PcreWrapper.pcre_exec(_code, _extra, bytes, data.Length, pos, options, ovector, OvecSize);
+					res = Exec(bytes, data.Length, pos, options, ovector);
 				}
 			}
 			if (res <= 0)
@@ -164,6 +172,18 @@ namespace PcreSharp
 			}
 			return new PcreMatch(this, data, _ovectorArr[0], _ovectorArr[1], options);
 
+		}
+
+		private unsafe int Exec(byte* subject, int length, int startoffset, int options, int* ovector)
+		{
+			if ((_studyOptions & PcreStudyOptions.PCRE_STUDY_JIT_COMPILE) != 0)
+			{
+				return PcreWrapper.pcre_jit_exec(_code, _extra, subject, length, startoffset, options, ovector, OvecSize, _stack);
+			}
+			else
+			{
+				return PcreWrapper.pcre_exec(_code, _extra, subject, length, startoffset, options, ovector, OvecSize);
+			}
 		}
 
 		~PcreRegex()
@@ -186,6 +206,10 @@ namespace PcreSharp
 			if (_extra != IntPtr.Zero)
 			{
 				PcreWrapper.pcre_free_study(_extra);
+			}
+			if (_stack != IntPtr.Zero)
+			{
+				PcreWrapper.pcre_jit_stack_free(_stack);
 			}
 		}
 	}
