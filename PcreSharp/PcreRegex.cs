@@ -4,6 +4,8 @@ using System.Text;
 
 namespace PcreSharp
 {
+	public delegate string PcreMatchEvaluator(PcreMatch match);
+
 	public class PcreRegex : IDisposable
 	{
 		private bool _disposed;
@@ -157,7 +159,64 @@ namespace PcreSharp
 		}
 		#endregion
 
-		public unsafe int MatchCount(string input, PcreOptions options = PcreOptions.NONE)
+		public string Replace(string input, PcreMatchEvaluator evaluator, int maxCount, int start, PcreOptions options)
+		{
+			throw  new NotImplementedException();
+		}
+
+		#region Replace() overloads
+		public string Replace(string input, PcreMatchEvaluator evaluator, int maxCount, int start)
+		{
+			return Replace(input, evaluator, maxCount, start, PcreOptions.NONE);
+		}
+
+		public string Replace(string input, PcreMatchEvaluator evaluator, int maxCount)
+		{
+			return Replace(input, evaluator, maxCount, 0);
+		}
+
+		public string Replace(string input, PcreMatchEvaluator evaluator)
+		{
+			return Replace(input, evaluator, -1);
+		}
+
+		public string Replace(string input, PcreMatchEvaluator evaluator, int maxCount, PcreOptions options)
+		{
+			return Replace(input, evaluator, maxCount, 0, options);
+		}
+
+		public string Replace(string input, PcreMatchEvaluator evaluator, PcreOptions options)
+		{
+			return Replace(input, evaluator, -1, options);
+		}
+
+		public string Replace(string input, string replacement, int maxCount, int start)
+		{
+			return Replace(input, match => replacement, maxCount, start, PcreOptions.NONE);
+		}
+
+		public string Replace(string input, string replacement, int maxCount)
+		{
+			return Replace(input, match => replacement, maxCount, 0);
+		}
+
+		public string Replace(string input, string replacement)
+		{
+			return Replace(input, match => replacement, -1);
+		}
+
+		public string Replace(string input, string replacement, int maxCount, PcreOptions options)
+		{
+			return Replace(input, match => replacement, maxCount, 0, options);
+		}
+
+		public string Replace(string input, string replacement, PcreOptions options)
+		{
+			return Replace(input, match => replacement, -1, options);
+		}
+		#endregion
+
+		public unsafe int MatchCount(string input, PcreOptions options)
 		{
 			int count = -1;
 			int pos = 0;
@@ -179,6 +238,13 @@ namespace PcreSharp
 			}
 			return count;
 		}
+
+		#region MatchCount() overloads
+		public int MatchCount(string input)
+		{
+			return MatchCount(input, PcreOptions.NONE);
+		}
+		#endregion
 
 		internal unsafe PcreMatch GetMatch(byte[] data, int pos, int options)
 		{
