@@ -7,8 +7,8 @@ namespace PcreSharp
 	{
 		private readonly PcreRegex _parent;
 		private readonly byte[] _input;
-		private readonly int _start;
-		private readonly int _end;
+		internal readonly int _start;
+		internal readonly int _end;
 		private readonly int _options;
 		private readonly bool _success;
 		private string _value;

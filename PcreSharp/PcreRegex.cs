@@ -161,7 +161,75 @@ namespace PcreSharp
 
 		public string Replace(string input, PcreMatchEvaluator evaluator, int maxCount, int start, PcreOptions options)
 		{
-			throw  new NotImplementedException();
+			var collection = Matches(input, start, options);
+			int count;
+			if (maxCount == -1)
+			{
+				count = collection.Count;
+			}
+			else
+			{
+				count = collection.GetMatch(maxCount) != null ? maxCount : collection.Count;
+			}
+
+			if (count == 0) return input;
+
+			throw new NotImplementedException();
+		}
+
+		public string Replace(string input, string replacement, int maxCount, int start, PcreOptions options)
+		{
+			byte[] srcBytes = Encoding.UTF8.GetBytes(input);
+			int opts = (int)options;
+			var collection = new PcreMatchCollection(this, srcBytes, start, opts);
+			int count;
+			if (maxCount == -1)
+			{
+				count = collection.Count;
+			}
+			else
+			{
+				count = collection.GetMatch(maxCount) != null ? maxCount : collection.Count;
+			}
+
+			if (count == 0) return input;
+
+			int totalLen = 0;
+
+			for (int i = 0; i < count; i++)
+			{
+				var currMatch = collection[i];
+				totalLen += currMatch.Length;
+			}
+
+			byte[] replacementBytes = Encoding.UTF8.GetBytes(replacement);
+			var replacementLen = replacementBytes.Length;
+			var resultLen = srcBytes.Length - totalLen + replacementLen * count;
+
+			var resultBytes = new byte[resultLen];
+
+			int currIndex = 0;
+			int currSrcPos = 0;
+			int currDstPos = 0;
+
+			while (currIndex < count)
+			{
+				var currMatch = collection[currIndex];
+				var copyCount = currMatch._start - currSrcPos;
+				Buffer.BlockCopy(srcBytes, currSrcPos, resultBytes, currDstPos, copyCount);
+				currSrcPos += copyCount;
+				currDstPos += copyCount;
+
+				Buffer.BlockCopy(replacementBytes, 0, resultBytes, currDstPos, replacementLen);
+				currSrcPos += currMatch.Length;
+				currDstPos += replacementLen;
+
+				currIndex++;
+			}
+
+			Buffer.BlockCopy(srcBytes, currSrcPos, resultBytes, currDstPos, srcBytes.Length - currSrcPos);
+
+			return Encoding.UTF8.GetString(resultBytes, 0, resultBytes.Length);
 		}
 
 		#region Replace() overloads
@@ -172,12 +240,12 @@ namespace PcreSharp
 
 		public string Replace(string input, PcreMatchEvaluator evaluator, int maxCount)
 		{
-			return Replace(input, evaluator, maxCount, 0);
+			return Replace(input, evaluator, maxCount, 0, PcreOptions.NONE);
 		}
 
 		public string Replace(string input, PcreMatchEvaluator evaluator)
 		{
-			return Replace(input, evaluator, -1);
+			return Replace(input, evaluator, -1, 0, PcreOptions.NONE);
 		}
 
 		public string Replace(string input, PcreMatchEvaluator evaluator, int maxCount, PcreOptions options)
@@ -187,32 +255,32 @@ namespace PcreSharp
 
 		public string Replace(string input, PcreMatchEvaluator evaluator, PcreOptions options)
 		{
-			return Replace(input, evaluator, -1, options);
+			return Replace(input, evaluator, -1, 0, options);
 		}
 
 		public string Replace(string input, string replacement, int maxCount, int start)
 		{
-			return Replace(input, match => replacement, maxCount, start, PcreOptions.NONE);
+			return Replace(input, replacement, maxCount, start, PcreOptions.NONE);
 		}
 
 		public string Replace(string input, string replacement, int maxCount)
 		{
-			return Replace(input, match => replacement, maxCount, 0);
+			return Replace(input, replacement, maxCount, 0, PcreOptions.NONE);
 		}
 
 		public string Replace(string input, string replacement)
 		{
-			return Replace(input, match => replacement, -1);
+			return Replace(input, replacement, -1, 0, PcreOptions.NONE);
 		}
 
 		public string Replace(string input, string replacement, int maxCount, PcreOptions options)
 		{
-			return Replace(input, match => replacement, maxCount, 0, options);
+			return Replace(input, replacement, maxCount, 0, options);
 		}
 
 		public string Replace(string input, string replacement, PcreOptions options)
 		{
-			return Replace(input, match => replacement, -1, options);
+			return Replace(input, replacement, -1, 0, options);
 		}
 		#endregion
 
