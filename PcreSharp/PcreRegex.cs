@@ -9,7 +9,8 @@ namespace PcreSharp
 		private bool _disposed;
 		private readonly IntPtr _code;
 		private readonly IntPtr _extra;
-		private readonly IntPtr _stack;
+		[ThreadStatic]
+		private static IntPtr _stack;
 		private readonly string _pattern;
 
 		private const int OvecSize = 10 * 3;
@@ -40,7 +41,10 @@ namespace PcreSharp
 			_extra = PcreWrapper.pcre_study(_code, (int)studyOptions, out error);
 			if ((studyOptions & PcreStudyOptions.PCRE_STUDY_JIT_COMPILE) != 0)
 			{
-				_stack = PcreWrapper.pcre_jit_stack_alloc(1024*1024, 16*1024*1024);
+				if (_stack == IntPtr.Zero)
+				{
+					_stack = PcreWrapper.pcre_jit_stack_alloc(64*1024, 16*1024*1024);
+				}
 			}
 		}
 
@@ -206,10 +210,6 @@ namespace PcreSharp
 			if (_extra != IntPtr.Zero)
 			{
 				PcreWrapper.pcre_free_study(_extra);
-			}
-			if (_stack != IntPtr.Zero)
-			{
-				PcreWrapper.pcre_jit_stack_free(_stack);
 			}
 		}
 	}
