@@ -10,12 +10,14 @@ namespace PcreSharp
 		private readonly PcreRegex _parent;
 		private readonly byte[] _data;
 		private readonly int _options;
+		private readonly int _start;
 
-		internal PcreMatchCollection(PcreRegex parent, byte[] data, int options)
+		internal PcreMatchCollection(PcreRegex parent, byte[] data, int start, int options)
 		{
 			_options = options;
 			_parent = parent;
 			_data = data;
+			_start = start;
 			_matches = new List<PcreMatch>();
 		}
 
@@ -56,7 +58,7 @@ namespace PcreSharp
 
 			if (_matches.Count == 0)
 			{
-				match = new PcreMatch(_parent, _data, 0, 0, _options);
+				match = new PcreMatch(_parent, _data, _start, 0, _options);
 			}
 			else
 			{

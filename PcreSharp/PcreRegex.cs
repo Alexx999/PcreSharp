@@ -132,10 +132,30 @@ namespace PcreSharp
 		}
 		#endregion
 
-		public PcreMatchCollection Matches()
+		public PcreMatchCollection Matches(string input, int start, PcreOptions options)
 		{
-			return null;
+			byte[] tgtBytes = Encoding.UTF8.GetBytes(input);
+			int opts = (int) options;
+
+			return new PcreMatchCollection(this, tgtBytes, start, opts);
 		}
+
+		#region Matches() overloads
+		public PcreMatchCollection Matches(string input)
+		{
+			return Matches(input, 0, PcreOptions.NONE);
+		}
+
+		public PcreMatchCollection Matches(string input, int start)
+		{
+			return Matches(input, start, PcreOptions.NONE);
+		}
+
+		public PcreMatchCollection Matches(string input, PcreOptions options)
+		{
+			return Matches(input, 0, options);
+		}
+		#endregion
 
 		public unsafe int MatchCount(string input, PcreOptions options = PcreOptions.NONE)
 		{
