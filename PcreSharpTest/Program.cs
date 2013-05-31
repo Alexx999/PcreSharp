@@ -14,7 +14,7 @@ namespace PcreSharpTest
 			string str = GenerateRandomDataString(StrLen);
 
 			int i;
-			int testNum = 100;
+			int testNum = 10;
 
 			var regex = new PcreRegex("\"id\\d+\"", PcreOptions.NONE, PcreStudyOptions.PCRE_STUDY_JIT_COMPILE);
 			var start = DateTime.Now;
@@ -32,6 +32,13 @@ namespace PcreSharpTest
 			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
 
 			var regexOrig = new Regex("\"id\\d+\"", RegexOptions.Compiled);
+
+			start = DateTime.Now;
+			for (i = 0; i < testNum; i++)
+			{
+				var a = regexOrig.Matches(str).Count;
+			}
+			Console.WriteLine((DateTime.Now - start).TotalMilliseconds / testNum);
 
 			start = DateTime.Now;
 			for (i = 0; i < testNum; i++)
