@@ -23,7 +23,7 @@ namespace PcreSharp
 
 		public IEnumerator<PcreMatch> GetEnumerator()
 		{
-			throw new NotImplementedException();
+			return new PcreMatchEnumerator(this);
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
@@ -43,7 +43,7 @@ namespace PcreSharp
 			}
 		}
 
-		private PcreMatch GetMatch(int i)
+		internal PcreMatch GetMatch(int i)
 		{
 			if (i < 0) return null;
 
@@ -86,27 +86,35 @@ namespace PcreSharp
 
 		public void Add(PcreMatch item)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public void Clear()
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public bool Contains(PcreMatch item)
 		{
+			GetMatch(int.MaxValue);
 			return _matches.Contains(item);
 		}
 
 		public void CopyTo(PcreMatch[] array, int arrayIndex)
 		{
-			throw new NotImplementedException();
+			if ((array != null) && (array.Rank != 1))
+			{
+				throw new ArgumentException("Multi-dimmensional arrays not supported");
+			}
+
+			GetMatch(int.MaxValue);
+
+			_matches.CopyTo(array, arrayIndex);
 		}
 
 		public bool Remove(PcreMatch item)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public int Count
